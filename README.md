@@ -35,7 +35,7 @@
 
 ### 2. Установи зависимости
 ```bash
-git clone https://github.com/username/dicecatbot.git
+git clone https://github.com/kirovz/tg-dice-bot.git
 cd dicecatbot
 npm install
 

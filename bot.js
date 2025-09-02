@@ -1,7 +1,7 @@
 
 
 const TelegramBot = require("node-telegram-bot-api");
-const token = "7547619895:AAF9tOmVFKEhgNaR-luBPwJvcmBynPvMEhk"; // Установка токена (token installation)
+const token = "111111111111111111111111111111111111"; // Установка токена (token installation)
 const bot = new TelegramBot(token, { polling: true });
 
 // /start
