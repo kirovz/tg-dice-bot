@@ -1,12 +1,12 @@
 
 
 const TelegramBot = require("node-telegram-bot-api");
-const token = "7547619895:AAF9tOmVFKEhgNaR-luBPwJvcmBynPvMEhk"; // вставь сюда свой токен
+const token = "7547619895:AAF9tOmVFKEhgNaR-luBPwJvcmBynPvMEhk"; // Установка токена (token installation)
 const bot = new TelegramBot(token, { polling: true });
 
 // /start
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Привет! Я бот-кубик 🎲 Напиши /d20 или /roll 3d6.");
+  bot.sendMessage(msg.chat.id, "Привет! Я бот-кубик 🎲 Напиши /d20 или /roll 3d6 (где 3 - количество брошенных кубиков).");
 });
 
 // /d20 (один бросок 20-гранного куба)
