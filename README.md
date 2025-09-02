@@ -28,3 +28,19 @@
 ## Стек
 - [Node.JS](https://nodejs.org/ "Node.JS") 
 - [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api "GIT") 
+
+## 🚀 Установка и запуск
+
+### 1. Получи токен бота
+1. В Telegram найди [@BotFather](https://t.me/BotFather).  
+2. Создай нового бота.
+3. Получи **API Token**.
+
+### 2. Установи зависимости
+```bash
+git clone https://github.com/username/dicecatbot.git
+cd dicecatbot
+npm install
+
+### 3. Запусти сервер
+node bot.js
