@@ -1,12 +1,11 @@
-
-
+require('dotenv').config();
 const TelegramBot = require("node-telegram-bot-api");
-const token = "111111111111111111111111111111111111"; // Установка токена (token installation)
-const bot = new TelegramBot(token, { polling: true });
+const token = process.env.TELEGRAM_TOKEN; // Токен теперь берётся из .env
+const bot = new 
 
 // /start
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Привет! Я бот-кубик 🎲 Напиши /d20 или /roll 3d6 (где 3 - количество брошенных кубиков).");
+  bot.sendMessage(msg.chat.id, "Привет! Я бот-кубик 🎲 Напиши /d20 или /roll 3d6.");
 });
 
 // /d20 (один бросок 20-гранного куба)
