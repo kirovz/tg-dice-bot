@@ -1,3 +1,4 @@
 node_modules/
+tg-t.env
 .env
 npm-debug.log*

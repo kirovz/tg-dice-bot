@@ -1,7 +1,7 @@
 require('dotenv').config();
 const TelegramBot = require("node-telegram-bot-api");
 const token = process.env.TELEGRAM_TOKEN; // Токен теперь берётся из .env
-const bot = new 
+const bot = new TelegramBot(token, { polling: true });
 
 // /start
 bot.onText(/\/start/, (msg) => {
@@ -11,6 +11,12 @@ bot.onText(/\/start/, (msg) => {
 // /d20 (один бросок 20-гранного куба)
 bot.onText(/\/d20/, (msg) => {
   const roll = Math.floor(Math.random() * 20) + 1;
+  bot.sendMessage(msg.chat.id, `🎲 Выпало: ${roll}`);
+});
+
+// /nd20 (один бросок 20-гранного куба выпадает ВСЕГДА 20)
+bot.onText(/\/nd20/, (msg) => {
+  const roll = 20;
   bot.sendMessage(msg.chat.id, `🎲 Выпало: ${roll}`);
 });
 
