@@ -1,0 +1,23 @@
+{
+  "iPhone 17": {
+    "price": "$999",
+    "display": "6.7 inches",
+    "camera": "48MP",
+    "battery": "4500 mAh",
+    "storage": "128GB / 256GB / 512GB"
+  },
+  "iPhone 17 Pro": {
+    "price": "$1199",
+    "display": "6.7 inches",
+    "camera": "48MP + 12MP + 12MP",
+    "battery": "4700 mAh",
+    "storage": "128GB / 256GB / 512GB / 1TB"
+  },
+  "iPhone 17 Pro Max": {
+    "price": "$1299",
+    "display": "6.7 inches",
+    "camera": "48MP + 12MP + 12MP",
+    "battery": "5000 mAh",
+    "storage": "128GB / 256GB / 512GB / 1TB"
+  }
+}

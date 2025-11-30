@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  mybot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mybot
+    env_file:
+      - ../bot/.env
+    restart: always
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge

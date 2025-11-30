@@ -1,48 +1,60 @@
+// Подключение залеп
 require('dotenv').config();
-const TelegramBot = require("node-telegram-bot-api");
-const token = process.env.TELEGRAM_TOKEN; // Токен теперь берётся из .env
-const bot = new TelegramBot(token, { polling: true });
+const { Telegraf, Markup } = require('telegraf');
+const OpenAI = require('openai');
+const { cryptoCommand, customCryptoCommand } = require("./commands/crypto");
+const { weatherCommand } = require("./commands/weather");
+const { compliment } = require("./commands/compliment");
+const { registerGameCommands } = require("./commands/games");
+const axios = require('axios');
+const iphones = require('./iphones.json');
+import registerRps from './games/rps/index.js';
+
+
+// Подключение ключиков из .env
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const WEATHER_KEY = process.env.YANDEX_WEATHER_KEY;
+
+
+// Глобальные команды (поп ап)
+bot.telegram.setMyCommands([
+  { command: 'help', description: 'Список команд' },
+])
 
 // /start
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Привет! Я бот-кубик 🎲 Напиши /d20 или /roll 3d6.");
-});
+// bot.start((ctx) => {
+//   ctx.reply("Привет! Я бот со всякими приколами. \n Начинался как кубик 🎲")
+// })
 
-// /d20 (один бросок 20-гранного куба)
-bot.onText(/\/d20/, (msg) => {
-  const roll = Math.floor(Math.random() * 20) + 1;
-  bot.sendMessage(msg.chat.id, `🎲 Выпало: ${roll}`);
-});
+// /help
+bot.help((ctx) => {
+  ctx.reply("Kоманды:\n/compliment - пишет комплимент\n/d20 - бросок одного 20-гранного куба\n/8ball - задать вопрос магическому шару\nСервисы:\n/crypto название монеты (например: /crypto ethereum)\n/weather город (например: /weather ейск)")
+})
 
-// /nd20 (один бросок 20-гранного куба выпадает ВСЕГДА 20)
-bot.onText(/\/nd20/, (msg) => {
-  const roll = 20;
-  bot.sendMessage(msg.chat.id, `🎲 Выпало: ${roll}`);
-});
+  // Погода: /weather Москва
+  bot.command("weather", weatherCommand);
 
-// Универсальная команда: /roll 3d20
-bot.onText(/\/roll (.+)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  const input = match[1].toLowerCase().trim(); // например "3d20"
+  // Крипта: /crypto coinName (например /crypto ethereum
+  bot.command("crypto", (ctx) => {
+    const parts = ctx.message.text.split(" ");
+    if (parts.length < 2) {
+      return ctx.reply("❓ Используй: /crypto coinName (например /crypto ethereum)");
+    }
 
-  const regex = /^(\d*)d(\d+)$/;
-  const parsed = input.match(regex);
+    const coinName = parts[1].toLowerCase();
+    return customCryptoCommand(ctx, coinName);
+  });
 
-  if (!parsed) {
-    bot.sendMessage(chatId, "❌ Неверный формат. Используй: /roll 3d20");
-    return;
-  }
+  // Команда для биткоина
+  bot.command("btc", cryptoCommand);
 
-  const count = parseInt(parsed[1] || "1", 10);
-  const sides = parseInt(parsed[2], 10);
+  // Игры: /8ball
+  registerGameCommands(bot);
 
-  if (count > 100) {
-    bot.sendMessage(chatId, "❌ Слишком много кубов (макс 100).");
-    return;
-  }
 
-  const rolls = Array.from({ length: count }, () => Math.floor(Math.random() * sides) + 1);
-  const total = rolls.reduce((a, b) => a + b, 0);
+  registerRps(bot);
+  
 
-  bot.sendMessage(chatId, `🎲 ${count}d${sides} → [${rolls.join(", ")}] = ${total}`);
-});
+  // Запуск
+  bot.launch()
